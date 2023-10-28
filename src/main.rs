@@ -23,7 +23,6 @@ fn main() {
     if !target_directory.exists() {
         fs::create_dir(&target_directory).expect("Failed to create subfolder");
     }
-
     // List files in the current directory.
     if let Ok(entries) = fs::read_dir(&current_directory) {
         for entry in entries {
@@ -34,7 +33,8 @@ fn main() {
                 if let Some(extension) = file_path.extension() {
                     if extension.to_string_lossy().to_lowercase() == file_extension {
                         // Move the file to the subfolder.
-                        let new_path = target_directory.join(file_path.file_name());
+                        let path_join = file_path.file_name().unwrap();
+                        let new_path = target_directory.join(path_join);
                         fs::rename(&file_path, &new_path).expect("Failed to move file");
                     }
                 }
